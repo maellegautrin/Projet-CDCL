@@ -1,42 +1,137 @@
-(*1. Sélectionner une variable et lui attribuer une valeur (True ou False). Cela crée un état de décision. Il est généralement préférable de choisir une variable basée sur une heuristique, comme la variable la plus fréquemment utilisée ou la variable la moins attribuée.
-2. Appliquer la propagation des contraintes booléennes (unit propagation). Cela signifie que vous vérifiez quelles clauses sont maintenant satisfaites ou insatisfaites en raison de la nouvelle attribution, et vous mettez à jour les valeurs des autres variables en conséquence. Par exemple, si une clause devient satisfaite, vous pouvez marquer certaines variables comme vraies, et si une clause devient insatisfaite, vous pouvez détecter un conflit.
-3. Construire le graphe d'implication. Cela consiste à suivre les dépendances entre les variables en fonction des clauses satisfaites ou insatisfaites. Le graphe d'implication vous aide à suivre pourquoi certaines valeurs ont été attribuées.
-4. En cas de conflit, vous devez résoudre ce conflit. Pour ce faire, vous devez :
-Trouver le "cut" (coupure) dans le graphe d'implication qui a conduit au conflit. Le "cut" est une séparation dans le graphe où la contradiction a été introduite.
-Dériver une nouvelle clause qui est la négation des attributions qui ont conduit au conflit. Cette clause sera ajoutée aux clauses existantes pour aider à éviter de futurs conflits similaires.
-5. Non-chronologiquement "backtrack" (retour en arrière) jusqu'au niveau de décision approprié, où la première variable attribuée impliquée dans le conflit a été attribuée. Cela signifie annuler certaines attributions et revenir à un état antérieur où des décisions différentes peuvent être prises.
-6. Sinon, si aucun conflit n'est détecté, vous pouvez continuer à partir de l'étape 1 avec une nouvelle décision.
-L'algorithme CDCL se répète jusqu'à ce que toutes les variables aient été attribuées ou qu'il soit déterminé qu'aucune attribution ne permet de satisfaire toutes les contraintes. Cet algorithme est très efficace pour résoudre des problèmes CSP, y compris le problème SAT, et est utilisé dans de nombreux solveurs SAT modernes.*)
+open Printf
 
-type clause = int list
-type implication_graph = (int * int) list
+(* Enumération pour stocker les états de sortie de certaines fonctions du solveur *)
+type ret_val =
+  | R_satisfied   (* la formule a été satisfaite *)
+  | R_unsatisfied (* la formule n'a pas été satisfaite *)
+  | R_normal      (* la formule n'est pas encore résolue *)
 
-(* Sélection de la prochaine variable à attribuer *)
-let select_variable assignment clauses =
-  let rec find_unassigned_var vars =
-    match vars with
-    | [] -> raise Not_found (* Toutes les variables sont attribuées *)
-    | x :: xs ->
-        if List.mem x assignment then find_unassigned_var xs
-        else x
+(* Structure pour stocker l'état du solveur SAT *)
+type sat_solver_cdcl = {
+  mutable literals : int list;                  (* État de chaque variable *)
+  mutable literal_list_per_clause : int list list; (* Liste de littéraux pour chaque clause *)
+  mutable literal_frequency : int list;         (* Occurrences totales de chaque variable dans la formule *)
+  mutable literal_polarity : int list;          (* Différence entre le nombre d'occurrences positives et négatives de chaque variable *)
+  mutable original_literal_frequency : int list; (* Copie de sauvegarde des fréquences *)
+  mutable literal_count : int;                  (* Nombre de variables dans la formule *)
+  mutable clause_count : int;                   (* Nombre de clauses dans la formule *)
+  mutable kappa_antecedent : int;               (* Antécédent du conflit, kappa *)
+  mutable literal_decision_level : int list;     (* Niveau de décision de chaque variable *)
+  mutable literal_antecedent : int list;        (* Antécédent de chaque variable *)
+  mutable assigned_literal_count : int;         (* Nombre de variables assignées jusqu'à présent *)
+  mutable already_unsatisfied : bool;           (* Si la formule contient une clause vide initialement *)
+  mutable pick_counter : int;                   (* Nombre de fois où une variable a été choisie librement en fonction de la fréquence *)
+  mutable generator : Random.State.t;
+}
+
+(* Fonction pour effectuer la propagation unitaire *)
+let unit_propagate solver decision_level =
+  let unit_clause_found = ref false in
+  let false_count = ref 0 in
+  let unset_count = ref 0 in
+  let satisfied_flag = ref false in
+  let last_unset_literal = ref (-1) in
+
+  let resolve input_clause resolver_literal =
+    let second_input = List.nth solver.literal_list_per_clause solver.literal_antecedent.(resolver_literal) in
+    let input_clause = List.append input_clause second_input in
+    let rec remove_literal lst lit =
+      match lst with
+      | [] -> []
+      | hd :: tl -> if hd = lit + 1 || hd = -lit - 1 then remove_literal tl lit else hd :: remove_literal tl lit
+    in
+    let input_clause = remove_literal input_clause (resolver_literal + 1) in
+    let sorted_clause = List.sort compare input_clause in
+    let deduplicated_clause = List.sort_uniq compare sorted_clause in
+    deduplicated_clause
   in
-  find_unassigned_var clauses
 
-(* Application la propagation des contraintes *)
-let rec propagate assignment clauses =
-  match clauses with
-  | [] -> assignment (* Toutes les clauses sont satisfaites, renvoyer l'attribution *)
-  | c :: rest ->
-      (* Vérifier si la clause est satisfaite *)
-      let satisfied = List.exists (fun x -> List.mem x assignment) c in
-      if satisfied then
-        propagate assignment rest
-      else
-        (* Trouver une variable non attribuée dans la clause *)
-        let unassigned_var =
-          try List.find (fun x -> not (List.mem x assignment)) c with
-          | Not_found -> raise (Conflict c) (* Il y a un conflit dans la clause *)
-        in
-        (* Attribuer la variable à true *)
-        let new_assignment = unassigned_var :: assignment in
-        propagate new_assignment clauses
+  let rec conflict_analysis_and_backtrack decision_level =
+    let learnt_clause = ref (List.nth solver.literal_list_per_clause solver.kappa_antecedent) in
+    let conflict_decision_level = ref decision_level in
+    let this_level_count = ref 0 in
+    let resolver_literal = ref 0 in
+    let literal = ref 0 in
+
+    let rec find_uip clause decision_level =
+      match clause with
+      | [] -> !resolver_literal
+      | hd :: tl ->
+        let lit = solver.literal_to_variable_index hd in
+        if solver.literal_decision_level.(lit) = decision_level then this_level_count := !this_level_count + 1;
+        if solver.literal_decision_level.(lit) = decision_level && solver.literal_antecedent.(lit) <> -1 then resolver_literal := lit;
+        find_uip tl decision_level
+    in
+
+    let uip = find_uip !learnt_clause decision_level in
+
+    if !this_level_count = 1 then
+      !conflict_decision_level
+    else
+      begin
+        learnt_clause := resolve !learnt_clause !resolver_literal;
+        conflict_analysis_and_backtrack decision_level
+      end
+  in
+
+  let assign_literal variable decision_level antecedent =
+    let literal = solver.literal_to_variable_index variable in
+    let value = if variable > 0 then 1 else 0 in
+    solver.literals.(literal) <- value;
+    solver.literal_decision_level.(literal) <- decision_level;
+    solver.literal_antecedent.(literal) <- antecedent;
+    solver.literal_frequency.(literal) <- -1;
+    solver.assigned_literal_count <- solver.assigned_literal_count + 1
+  in
+
+  let unassign_literal literal_index =
+    solver.literals.(literal_index) <- -1;
+    solver.literal_decision_level.(literal_index) <- -1;
+    solver.literal_antecedent.(literal_index) <- -1;
+    solver.literal_frequency.(literal_index) <- solver.original_literal_frequency.(literal_index);
+    solver.assigned_literal_count <- solver.assigned_literal_count - 1
+  in
+
+  let literal_to_variable_index variable =
+    if variable > 0 then variable - 1 else -variable - 1
+  in
+
+  let rec resolve input_clause resolver_literal =
+    let second_input = List.nth solver.literal_list_per_clause solver.literal_antecedent.(resolver_literal) in
+    let input_clause = List.append input_clause second_input in
+    let rec remove_literal lst lit =
+      match lst with
+      | [] -> []
+      | hd :: tl -> if hd = lit + 1 || hd = -lit - 1 then remove_literal tl lit else hd :: remove_literal tl lit
+    in
+    let input_clause = remove_literal input_clause (resolver_literal + 1) in
+    let sorted_clause = List.sort compare input_clause in
+    let deduplicated_clause = List.sort_uniq compare sorted_clause in
+    deduplicated_clause
+  in
+
+  let conflict_analysis_and_backtrack decision_level =
+    let learnt_clause = ref (List.nth solver.literal_list_per_clause solver.kappa_antecedent) in
+    let conflict_decision_level = ref decision_level in
+    let this_level_count = ref 0 in
+    let resolver_literal = ref 0 in
+    let literal = ref 0 in
+
+    let rec find_uip clause decision_level =
+      match clause with
+      | [] -> !resolver_literal
+      | hd :: tl ->
+        let lit = solver.literal_to_variable_index hd in
+        if solver.literal_decision_level.(lit) = decision_level then this_level_count := !this_level_count + 1;
+        if solver.literal_decision_level.(lit) = decision_level && solver.literal_antecedent.(lit) <> -1 then resolver_literal := lit;
+        find_uip tl decision_level
+    in
+
+    let uip = find_uip !learnt_clause decision_level in
+    if !this_level_count = 1 then
+      !conflict_decision_level
+    else
+      begin
+        learnt_clause := resolve !learnt_clause !resolver_literal;
+        conflict_analysis_and_backtrack decision_level
+      end
