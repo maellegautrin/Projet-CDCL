@@ -13,5 +13,5 @@
 (executable
 	(name main)
 	(public_name dpll)
-	(libraries menhirLib)
+	(libraries menhirLib ocamlgraph)
 	(package cdcl))
