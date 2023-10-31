@@ -78,3 +78,4 @@ echo -e "\033[0;32mPass   : $pass / $TOTAL\033[0m"
 echo -e "\033[0;33mTimeout: $timeout / $TOTAL\033[0m"
 echo -e "\033[0;36mFail   : $fail / $TOTAL\033[0m"
 exit 0
+
