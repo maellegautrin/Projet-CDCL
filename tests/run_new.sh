@@ -9,7 +9,7 @@ RESULT_FAIL=0
 TOTAL=0
 
 TIMEOUT=${1:-30}
-CMD="timeout ${TIMEOUT} ./dpll --proof"
+CMD="timeout ${TIMEOUT} ./cdcl --proof"
 CMD_PROOF="picosat"
 
 

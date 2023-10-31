@@ -1,0 +1,240 @@
+ln -s _build/install/default/bin/dpll dpll || true
+ln: impossible de créer le lien symbolique 'dpll': Le fichier existe
+./tests/run.sh 30
+find ./tests/KO -path '/*.cnf'
+
+------------------------
+  Running 22 satisfiable tests with TIMEOUT=30
+------------------------
+./tests/OK/MISC/example.cnf... SUCCESS
+./tests/OK/MISC/trivial.cnf... SUCCESS
+./tests/OK/MISC/ok_50_80.cnf... WRONG
+./tests/OK/AI/ais12.cnf... TIMEOUT
+./tests/OK/AI/ais10.cnf... TIMEOUT
+./tests/OK/AI/ais6.cnf... SUCCESS
+./tests/OK/AI/ais8.cnf... SUCCESS
+./tests/OK/HORNSAT/hornsat1.cnf... SUCCESS
+./tests/OK/QG/qg5-11.cnf... TIMEOUT
+./tests/OK/QG/qg7-09.cnf... SUCCESS
+./tests/OK/QG/qg3-08.cnf... TIMEOUT
+./tests/OK/QG/qg7-13.cnf... TIMEOUT
+./tests/OK/QG/qg6-09.cnf... SUCCESS
+./tests/OK/QG/qg1-08.cnf... TIMEOUT
+./tests/OK/QG/qg2-08.cnf... TIMEOUT
+./tests/OK/QG/qg2-07.cnf... TIMEOUT
+./tests/OK/QG/qg1-07.cnf... TIMEOUT
+./tests/OK/QG/qg4-09.cnf... TIMEOUT
+./tests/OK/BW/bw_large.b.cnf... TIMEOUT
+./tests/OK/BW/bw_large.c.cnf... TIMEOUT
+./tests/OK/BW/bw_large.d.cnf... TIMEOUT
+./tests/OK/BW/bw_large.a.cnf... TIMEOUT
+
+------------------------
+  Running 43 unsatisfiable tests with TIMEOUT=30
+------------------------
+./tests/KO/BF/bf1355-075.cnf... TIMEOUT
+./tests/KO/BF/bf1355-638.cnf... TIMEOUT
+./tests/KO/BF/bf0432-007.cnf... TIMEOUT
+./tests/KO/BF/bf2670-001.cnf... TIMEOUT
+./tests/KO/MISC/ko_100_160.cnf... TIMEOUT
+./tests/KO/MISC/ko_60_160.cnf... SUCCESS
+./tests/KO/MISC/ko_trivial.cnf... SUCCESS
+./tests/KO/QG/qg4-08.cnf... TIMEOUT
+./tests/KO/QG/qg6-10.cnf... TIMEOUT
+./tests/KO/QG/qg5-09.cnf... TIMEOUT
+./tests/KO/QG/qg7-12.cnf... TIMEOUT
+./tests/KO/QG/qg3-09.cnf... TIMEOUT
+./tests/KO/QG/qg6-12.cnf... TIMEOUT
+./tests/KO/QG/qg7-10.cnf... TIMEOUT
+./tests/KO/QG/qg6-11.cnf... TIMEOUT
+./tests/KO/QG/qg5-12.cnf... TIMEOUT
+./tests/KO/QG/qg7-11.cnf... TIMEOUT
+./tests/KO/QG/qg5-13.cnf... TIMEOUT
+./tests/KO/QG/qg5-10.cnf... TIMEOUT
+./tests/KO/DUBOIS/dubois27.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois23.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois30.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois22.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois26.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois28.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois25.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois50.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois24.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois29.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois20.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois21.cnf... SUCCESS
+./tests/KO/PHOLE/hole10.cnf... TIMEOUT
+./tests/KO/PHOLE/hole8.cnf... TIMEOUT
+./tests/KO/PHOLE/hole7.cnf... TIMEOUT
+./tests/KO/PHOLE/hole6.cnf... SUCCESS
+./tests/KO/PRET/pret150_75.cnf... TIMEOUT
+./tests/KO/PRET/pret150_60.cnf... TIMEOUT
+./tests/KO/PRET/pret60_40.cnf... SUCCESS
+./tests/KO/PRET/pret150_25.cnf... TIMEOUT
+./tests/KO/PRET/pret150_40.cnf... TIMEOUT
+./tests/KO/PRET/pret60_60.cnf... SUCCESS
+./tests/KO/PRET/pret60_25.cnf... SUCCESS
+./tests/KO/PRET/pret60_75.cnf... SUCCESS
+------------------------
+Wrong  : 1 / 65
+Pass   : 26 / 65
+Timeout: 38 / 65
+Fail   : 0 / 65
+------------------------
+  Running 22 satisfiable tests with TIMEOUT=30
+------------------------
+./tests/OK/MISC/example.cnf... SUCCESS
+./tests/OK/MISC/trivial.cnf... SUCCESS
+./tests/OK/MISC/ok_50_80.cnf... SUCCESS
+./tests/OK/AI/ais12.cnf... TIMEOUT
+./tests/OK/AI/ais10.cnf... TIMEOUT
+./tests/OK/AI/ais6.cnf... SUCCESS
+./tests/OK/AI/ais8.cnf... SUCCESS
+./tests/OK/HORNSAT/hornsat1.cnf... SUCCESS
+./tests/OK/QG/qg5-11.cnf... TIMEOUT
+./tests/OK/QG/qg7-09.cnf... SUCCESS
+./tests/OK/QG/qg3-08.cnf... SUCCESS
+./tests/OK/QG/qg7-13.cnf... TIMEOUT
+./tests/OK/QG/qg6-09.cnf... SUCCESS
+./tests/OK/QG/qg1-08.cnf... TIMEOUT
+./tests/OK/QG/qg2-08.cnf... TIMEOUT
+./tests/OK/QG/qg2-07.cnf... TIMEOUT
+./tests/OK/QG/qg1-07.cnf... TIMEOUT
+./tests/OK/QG/qg4-09.cnf... TIMEOUT
+./tests/OK/BW/bw_large.b.cnf... TIMEOUT
+./tests/OK/BW/bw_large.c.cnf... TIMEOUT
+./tests/OK/BW/bw_large.d.cnf... TIMEOUT
+./tests/OK/BW/bw_large.a.cnf... SUCCESS
+
+------------------------
+  Running 43 unsatisfiable tests with TIMEOUT=30
+------------------------
+./tests/KO/BF/bf1355-075.cnf... SUCCESS
+./tests/KO/BF/bf1355-638.cnf... SUCCESS
+./tests/KO/BF/bf0432-007.cnf... TIMEOUT
+./tests/KO/BF/bf2670-001.cnf... TIMEOUT
+./tests/KO/MISC/ko_100_160.cnf... SUCCESS
+./tests/KO/MISC/ko_60_160.cnf... SUCCESS
+./tests/KO/MISC/ko_trivial.cnf... SUCCESS
+./tests/KO/QG/qg4-08.cnf... TIMEOUT
+./tests/KO/QG/qg6-10.cnf... TIMEOUT
+./tests/KO/QG/qg5-09.cnf... TIMEOUT
+./tests/KO/QG/qg7-12.cnf... TIMEOUT
+./tests/KO/QG/qg3-09.cnf... TIMEOUT
+./tests/KO/QG/qg6-12.cnf... TIMEOUT
+./tests/KO/QG/qg7-10.cnf... TIMEOUT
+./tests/KO/QG/qg6-11.cnf... TIMEOUT
+./tests/KO/QG/qg5-12.cnf... TIMEOUT
+./tests/KO/QG/qg7-11.cnf... TIMEOUT
+./tests/KO/QG/qg5-13.cnf... TIMEOUT
+./tests/KO/QG/qg5-10.cnf... TIMEOUT
+./tests/KO/DUBOIS/dubois27.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois23.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois30.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois22.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois26.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois28.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois25.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois50.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois24.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois29.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois20.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois21.cnf... SUCCESS
+./tests/KO/PHOLE/hole10.cnf... TIMEOUT
+./tests/KO/PHOLE/hole8.cnf... TIMEOUT
+./tests/KO/PHOLE/hole7.cnf... TIMEOUT
+./tests/KO/PHOLE/hole6.cnf... SUCCESS
+./tests/KO/PRET/pret150_75.cnf... SUCCESS
+./tests/KO/PRET/pret150_60.cnf... SUCCESS
+./tests/KO/PRET/pret60_40.cnf... SUCCESS
+./tests/KO/PRET/pret150_25.cnf... SUCCESS
+./tests/KO/PRET/pret150_40.cnf... SUCCESS
+./tests/KO/PRET/pret60_60.cnf... SUCCESS
+./tests/KO/PRET/pret60_25.cnf... SUCCESS
+./tests/KO/PRET/pret60_75.cnf... SUCCESS
+------------------------
+Wrong  : 0 / 65
+Pass   : 36 / 65
+Timeout: 29 / 65
+Fail   : 0 / 65
+
+
+
+
+------------------------
+  Running 22 satisfiable tests with TIMEOUT=30
+------------------------
+./tests/OK/MISC/example.cnf... SUCCESS
+./tests/OK/MISC/trivial.cnf... SUCCESS
+./tests/OK/MISC/ok_50_80.cnf... SUCCESS
+./tests/OK/AI/ais12.cnf... TIMEOUT
+./tests/OK/AI/ais10.cnf... TIMEOUT
+./tests/OK/AI/ais6.cnf... SUCCESS
+./tests/OK/AI/ais8.cnf... SUCCESS
+./tests/OK/HORNSAT/hornsat1.cnf... SUCCESS
+./tests/OK/QG/qg5-11.cnf... TIMEOUT
+./tests/OK/QG/qg7-09.cnf... SUCCESS
+./tests/OK/QG/qg3-08.cnf... SUCCESS
+./tests/OK/QG/qg7-13.cnf... TIMEOUT
+./tests/OK/QG/qg6-09.cnf... SUCCESS
+./tests/OK/QG/qg1-08.cnf... TIMEOUT
+./tests/OK/QG/qg2-08.cnf... TIMEOUT
+./tests/OK/QG/qg2-07.cnf... TIMEOUT
+./tests/OK/QG/qg1-07.cnf... TIMEOUT
+./tests/OK/QG/qg4-09.cnf... TIMEOUT
+./tests/OK/BW/bw_large.b.cnf... TIMEOUT
+./tests/OK/BW/bw_large.c.cnf... TIMEOUT
+./tests/OK/BW/bw_large.d.cnf... TIMEOUT
+./tests/OK/BW/bw_large.a.cnf... SUCCESS
+
+------------------------
+  Running 43 unsatisfiable tests with TIMEOUT=30
+------------------------
+./tests/KO/BF/bf1355-075.cnf... SUCCESS
+./tests/KO/BF/bf1355-638.cnf... SUCCESS
+./tests/KO/BF/bf0432-007.cnf... TIMEOUT
+./tests/KO/BF/bf2670-001.cnf... TIMEOUT
+./tests/KO/MISC/ko_100_160.cnf... SUCCESS
+./tests/KO/MISC/ko_60_160.cnf... SUCCESS
+./tests/KO/MISC/ko_trivial.cnf... SUCCESS
+./tests/KO/QG/qg4-08.cnf... TIMEOUT
+./tests/KO/QG/qg6-10.cnf... TIMEOUT
+./tests/KO/QG/qg5-09.cnf... TIMEOUT
+./tests/KO/QG/qg7-12.cnf... TIMEOUT
+./tests/KO/QG/qg3-09.cnf... TIMEOUT
+./tests/KO/QG/qg6-12.cnf... TIMEOUT
+./tests/KO/QG/qg7-10.cnf... TIMEOUT
+./tests/KO/QG/qg6-11.cnf... TIMEOUT
+./tests/KO/QG/qg5-12.cnf... TIMEOUT
+./tests/KO/QG/qg7-11.cnf... TIMEOUT
+./tests/KO/QG/qg5-13.cnf... TIMEOUT
+./tests/KO/QG/qg5-10.cnf... TIMEOUT
+./tests/KO/DUBOIS/dubois27.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois23.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois30.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois22.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois26.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois28.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois25.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois50.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois24.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois29.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois20.cnf... SUCCESS
+./tests/KO/DUBOIS/dubois21.cnf... SUCCESS
+./tests/KO/PHOLE/hole10.cnf... TIMEOUT
+./tests/KO/PHOLE/hole8.cnf... TIMEOUT
+./tests/KO/PHOLE/hole7.cnf... TIMEOUT
+./tests/KO/PHOLE/hole6.cnf... SUCCESS
+./tests/KO/PRET/pret150_75.cnf... TIMEOUT
+./tests/KO/PRET/pret150_60.cnf... SUCCESS
+./tests/KO/PRET/pret60_40.cnf... SUCCESS
+./tests/KO/PRET/pret150_25.cnf... SUCCESS
+./tests/KO/PRET/pret150_40.cnf... SUCCESS
+./tests/KO/PRET/pret60_60.cnf... SUCCESS
+./tests/KO/PRET/pret60_25.cnf... SUCCESS
+./tests/KO/PRET/pret60_75.cnf... SUCCESS
+------------------------
+Wrong  : 0 / 65
+Pass   : 35 / 65
+Timeout: 30 / 65
+Fail   : 0 / 65

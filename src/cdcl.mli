@@ -1,1 +1,2 @@
-module CDCL(C:Choice.CHOICE) : Solver.SOLVER
+
+module CDCL : Solver.SOLVER

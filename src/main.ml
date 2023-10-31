@@ -11,7 +11,7 @@ let mode = ref Cnf
 let proof = ref false
 
 (** Default solver. By doing the third part of the project, you might come with other solvers *)
-module S = Cdcl2.CDCL(Choice.DefaultChoice)
+module S = Cdcl.CDCL
 
 (** Handle files given on the command line *)
 let handle_file : string -> unit = fun fname ->
